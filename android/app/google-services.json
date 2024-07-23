@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "220708616182",
+    "project_id": "zen-app-1d73e",
+    "storage_bucket": "zen-app-1d73e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:220708616182:android:2241d4d88dd1739188b9d7",
+        "android_client_info": {
+          "package_name": "com.myapp.zen"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "220708616182-7qbjsam6lpm0oupahkf7v9an048l6m5s.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.myapp.zen",
+            "certificate_hash": "a3ae93adbb7f303cacb73ac11248022908b88079"
+          }
+        },
+        {
+          "client_id": "220708616182-i6u1hlm5oe7puu462ago7bpbjv80s3n7.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAS8Sx-0rH697crHqiryaM67PZKtfF0Qak"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "220708616182-i6u1hlm5oe7puu462ago7bpbjv80s3n7.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

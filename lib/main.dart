@@ -1,6 +1,6 @@
-// Copyright 2019 The Flutter team. All rights reserved.
-// Use of this source code is governed by a BSD-style license that can be
-// found in the LICENSE file.
+// // Copyright 2019 The Flutter team. All rights reserved.
+// // Use of this source code is governed by a BSD-style license that can be
+// // found in the LICENSE file.
 
 import 'dart:io' show Platform;
 
@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 // import 'package:provider_shopper/common/theme.dart';
 // import 'package:provider_shopper/models/cart.dart';
 // import 'package:provider_shopper/models/catalog.dart';
@@ -17,10 +18,21 @@ import 'package:provider/provider.dart';
 import 'screens/login.dart';
 // import 'package:window_size/window_size.dart';
 
-void main() {
-  // setupWindow();
-  runApp(const MyApp());
+import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:google_sign_in/google_sign_in.dart';
+import 'package:flutter/material.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  runApp(MyApp());
 }
+// void main() {
+//   // setupWindow();
+//   runApp(const MyApp());
+// }
 
 const double windowWidth = 400;
 const double windowHeight = 800;

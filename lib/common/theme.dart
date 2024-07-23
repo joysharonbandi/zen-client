@@ -5,12 +5,24 @@
 import 'package:flutter/material.dart';
 
 final appTheme = ThemeData(
-  colorSchemeSeed: Colors.yellow,
+  colorSchemeSeed: Color.fromARGB(255, 255, 255, 1),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
-      fontFamily: 'Corben',
+      fontFamily: 'Roboto',
       fontWeight: FontWeight.w700,
-      fontSize: 24,
+      fontSize: 48,
+      color: Colors.black,
+    ),
+    displayMedium: TextStyle(
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w700,
+      fontSize: 20,
+      color: Colors.black,
+    ),
+    displaySmall: TextStyle(
+      fontFamily: 'Roboto',
+      fontWeight: FontWeight.w300,
+      fontSize: 13,
       color: Colors.black,
     ),
   ),

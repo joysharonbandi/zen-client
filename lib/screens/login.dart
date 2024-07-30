@@ -71,6 +71,7 @@ class MyLogin extends StatelessWidget {
               onPressed: () async {
                 User? user = await signInWithGoogle();
                 if (user != null) {
+                  context.pushReplacement('/navigation');
                   print('Sign-In successful: $user');
                   // Navigate to another screen or show a success message
                 } else {

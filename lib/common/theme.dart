@@ -5,7 +5,7 @@
 import 'package:flutter/material.dart';
 
 final appTheme = ThemeData(
-  colorSchemeSeed: Color(0xFF7429C9),
+  colorSchemeSeed: Color.fromARGB(255, 162, 154, 170),
   textTheme: const TextTheme(
     displayLarge: TextStyle(
       fontFamily: 'Roboto',

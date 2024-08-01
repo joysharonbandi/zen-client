@@ -1,17 +1,18 @@
-import 'dart:io' show Platform;
-import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:firebase_auth/firebase_auth.dart';
+// // Copyright 2019 The Flutter team. All rights reserved.
+// // Use of this source code is governed by a BSD-style license that can be
+// // found in the LICENSE file.
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
+import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goal_desc.dart';
 import 'package:flutter_application_1/screens/navigation.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+
 import 'screens/login.dart';
-import 'package:flutter/material.dart';
-import 'package:firebase_core/firebase_core.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:google_sign_in/google_sign_in.dart';
-import 'package:flutter/material.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -38,6 +39,21 @@ GoRouter router(BuildContext context) {
           ),
         ],
       ),
+      GoRoute(
+        path: '/dashboard',
+        builder: (context, state) => const MyDashboard(),
+      ),
+
+      // GoRoute(
+      //   path: '/catalog',
+      //   builder: (context, state) => const MyCatalog(),
+      //   routes: [
+      //     GoRoute(
+      //       path: 'cart',
+      //       builder: (context, state) => const MyCart(),
+      //     ),
+      //   ],
+      // ),
     ],
   );
 }

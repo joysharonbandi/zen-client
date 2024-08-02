@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/tasks_details.dart';
+import 'package:flutter_application_1/widgets/Questionare.dart';
+import 'package:go_router/go_router.dart';
 
 class GoalDetailScreen extends StatelessWidget {
   // final String name;
@@ -47,6 +50,23 @@ class GoalDetailScreen extends StatelessWidget {
             Center(
               child: ElevatedButton(
                 onPressed: () {
+                  showModalBottomSheet(
+                    context: context,
+                    isScrollControlled: true,
+                    backgroundColor: Colors.transparent,
+                    builder: (context) => SafeArea(
+                      child: Container(
+                        height: MediaQuery.of(context).size.height - 100,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(20)),
+                        ),
+                        child: QuestionnaireModal(),
+                      ),
+                    ),
+                  );
+                  // context.push("/navigation/day_list");
                   // Handle start goal action
                 },
                 child: Text('Start Goal'),

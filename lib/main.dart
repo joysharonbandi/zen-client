@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
 import 'package:flutter_application_1/screens/goal_desc.dart';
 import 'package:flutter_application_1/screens/navigation.dart';
+import 'package:flutter_application_1/screens/task_list.dart';
+import 'package:flutter_application_1/screens/tasks_details.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'screens/login.dart';
@@ -36,6 +38,15 @@ GoRouter router(BuildContext context) {
             path: 'goal_details',
             builder: (context, state) => GoalDetailScreen(),
           ),
+          GoRoute(
+              path: 'day_list',
+              builder: (context, state) => SevenDayPlanScreen(),
+              routes: [
+                GoRoute(
+                  path: 'task_list',
+                  builder: (context, state) => TaskListScreen(),
+                ),
+              ]),
         ],
       ),
     ],

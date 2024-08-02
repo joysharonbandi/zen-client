@@ -36,11 +36,6 @@ class _GoalsPage extends State<GoalsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text('Goals'),
-        ),
-      ),
       body: Visibility(
         visible: isLoaded,
         child: ListView.builder(

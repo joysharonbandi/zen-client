@@ -24,7 +24,7 @@ void main() async {
 GoRouter router(BuildContext context) {
   User? user = FirebaseAuth.instance.currentUser;
   return GoRouter(
-    initialLocation: user == null ? '/login' : '/navigation',
+    initialLocation: "/navigation",
     routes: [
       GoRoute(
         path: '/login',

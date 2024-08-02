@@ -34,11 +34,6 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Center(
-          child: Text('Posts'),
-        ),
-      ),
       body: Visibility(
         visible: isLoaded,
         child: ListView.builder(

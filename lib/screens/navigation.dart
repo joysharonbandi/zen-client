@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goals_list.dart';
 import 'package:flutter_application_1/screens/mood.dart';
+import 'package:go_router/go_router.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
+import 'package:lottie/lottie.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -49,26 +52,51 @@ class _NavigationExampleState extends State<NavigationExample> {
         ),
         child: ClipRRect(
           borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          child: PageView(
-            controller: controller,
-            onPageChanged: (index) {
-              setState(() {
-                selected = index;
-              });
-            },
-            children: const [
-              Center(child: Text('Home')),
-              GoalsPage(),
-              MoodPage(),
-              Center(child: Text('Profile')),
-            ],
+          child: SafeArea(
+            child: PageView(
+              controller: controller,
+              onPageChanged: (index) {
+                setState(() {
+                  selected = index;
+                });
+              },
+              children: const [
+                MyDashboard(),
+                GoalsPage(),
+                MoodPage(),
+                Center(child: Text('Profile')),
+              ],
+            ),
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: colorScheme.primary,
-        child: const Icon(Icons.add, color: Colors.white),
+        child: Container(
+          width: 500,
+          height: 500,
+          decoration: BoxDecoration(
+            color: Color.fromARGB(255, 158, 124, 191),
+            border: Border.all(
+              color: Color.fromARGB(255, 174, 150, 201), // Border color
+              width: 2.0, // Border width
+            ),
+            borderRadius: BorderRadius.all(
+                Radius.circular(100)), // Optional: rounded corners
+          ),
+          child: GestureDetector(
+            onTap: () {
+              context.push('/navigation/chat');
+              // Add your onTap logic here
+            },
+            child: Lottie.asset(
+              'assets/images/chat_bot_anim.json',
+              width: 100,
+              height: 100,
+            ),
+          ),
+        ),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(50.0),
         ),
@@ -98,7 +126,7 @@ class _NavigationExampleState extends State<NavigationExample> {
           ),
           BottomBarItem(
             icon: const Icon(
-              Icons.mood_bad_outlined,
+              Icons.mood_outlined,
               size: 30,
             ),
             selectedColor: Colors.white,

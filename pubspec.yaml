@@ -15,7 +15,8 @@ dependencies:
   go_router: ^14.0.0
   provider: ^6.0.2
   carousel_slider: ^4.0.0
-
+  font_awesome_flutter: ^10.0.0
+  speedometer_chart: ^1.0.8
   english_words: ^4.0.0
   flutter_chat_ui: ^1.6.14
   firebase_core: ^2.15.0
@@ -25,6 +26,8 @@ dependencies:
   shelf: ^1.2.0
   shelf_router: ^1.0.0
   stylish_bottom_bar: ^1.1.0
+  lottie: ^3.1.2
+  uuid: ^4.4.2
 
 dev_dependencies:
   flutter_test:
@@ -38,3 +41,15 @@ flutter:
   generate: true
   assets:
     - assets/images/brain.png
+    - assets/images/search_icon.png
+    - assets/images/notification_icon.png
+    - assets/images/morning_icon.png
+    - assets/images/angry_icon.png
+    - assets/images/cry_icon.png
+    - assets/images/sad_icon.png
+    - assets/images/shy_icon.png
+    - assets/images/smile_icon.png
+    - assets/images/smile_with_pain_icon.png
+    - assets/images/thinking_icon.png
+    - assets/images/reminder_icon.png
+    - assets/images/chat_bot_anim.json

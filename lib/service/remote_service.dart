@@ -143,3 +143,16 @@ Stream<List<dynamic>> establishSSEConnection() async* {
     client.close();
   }
 }
+
+Stream<List<dynamic>> chatWithAI(String userMessage) async* {
+  final response = await http.post(
+    Uri.parse('http://10.0.2.2:8000/api/gemini'),
+    body: {'user_message': userMessage},
+  );
+  if (response.statusCode == 200) {
+    List<dynamic> data = json.decode(response.body);
+    yield data;
+  } else {
+    throw Exception('Failed to load data');
+  }
+}

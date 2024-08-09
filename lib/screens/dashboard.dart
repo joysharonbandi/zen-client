@@ -1,315 +1,9 @@
-// import 'package:flutter/material.dart';
-// import 'package:flutter_application_1/service/remote_service.dart';
-// import 'package:speedometer_chart/speedometer_chart.dart';
-
-// class MyDashboard extends StatefulWidget {
-//   const MyDashboard({super.key});
-//   @override
-//   State<MyDashboard> createState() => _MyDashboardState();
-// }
-
-// class _MyDashboardState extends State<MyDashboard> {
-//   String name = 'Shankar';
-//   final List<String> imagePaths = [
-//     'assets/images/angry_icon.png',
-//     'assets/images/cry_icon.png',
-//     'assets/images/shy_icon.png',
-//     'assets/images/sad_icon.png',
-//     'assets/images/smile_icon.png',
-//     'assets/images/smile_with_pain_icon.png',
-//     'assets/images/thinking_icon.png',
-//     // Add more image paths as needed
-//   ];
-
-//   late Future<Map<String, dynamic>> _dashboardData;
-
-//   @override
-//   void initState() {
-//     super.initState();
-//     _dashboardData =
-//         RemoteService().fetchDashboardData('XZUGbVJiMQOM6IW6KCebjCHKLBA2');
-//   }
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: FutureBuilder<Map<String, dynamic>>(
-//         future: _dashboardData,
-//         builder: (context, snapshot) {
-//           if (snapshot.connectionState == ConnectionState.waiting) {
-//             return Center(child: CircularProgressIndicator());
-//           } else if (snapshot.hasError) {
-//             return Center(child: Text('Error: ${snapshot.error}'));
-//           } else if (snapshot.hasData) {
-//             final data = snapshot.data!;
-//             return SingleChildScrollView(
-//               child: Column(
-//                 children: [
-//                   Stack(
-//                     children: [
-//                       Positioned(
-//                         child: ClipPath(
-//                           clipper: EllipseClipper(),
-//                           child: Container(
-//                             width: 300,
-//                             height: 250,
-//                             decoration: BoxDecoration(
-//                               borderRadius: BorderRadius.only(
-//                                   bottomRight: Radius.circular(500)),
-//                               gradient: LinearGradient(
-//                                 colors: [
-//                                   Color.fromARGB(255, 174, 150, 201),
-//                                   Color(0xFFFFFFFF)
-//                                 ],
-//                                 begin: Alignment.topCenter,
-//                                 end: Alignment.bottomCenter,
-//                               ),
-//                             ),
-//                           ),
-//                         ),
-//                       ),
-//                       Padding(
-//                         padding: const EdgeInsets.symmetric(
-//                             vertical: 60, horizontal: 20),
-//                         child: Column(
-//                           children: [
-//                             Row(
-//                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//                               children: [
-//                                 Expanded(
-//                                   child: Text(
-//                                     "Good Morning $name",
-//                                     style: TextStyle(fontSize: 16),
-//                                     maxLines: 2,
-//                                     overflow: TextOverflow.ellipsis,
-//                                   ),
-//                                 ),
-//                                 Image.asset(
-//                                   'assets/images/morning_icon.png',
-//                                   width: 80,
-//                                   height: 80,
-//                                 ),
-//                                 Row(
-//                                   children: [
-//                                     SizedBox(width: 30),
-//                                     Image.asset(
-//                                       'assets/images/notification_icon.png',
-//                                       width: 24,
-//                                       height: 24,
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ],
-//                             ),
-//                             SizedBox(height: 20),
-//                             Card(
-//                               color: Colors.white,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Row(
-//                                   mainAxisAlignment: MainAxisAlignment.center,
-//                                   children: [
-//                                     Image.asset(
-//                                       'assets/images/reminder_icon.png',
-//                                       width: 24,
-//                                       height: 24,
-//                                     ),
-//                                     SizedBox(width: 18),
-//                                     Expanded(
-//                                       child: Text(
-//                                         data["quote"],
-//                                         style: TextStyle(fontSize: 12),
-//                                         maxLines: 3,
-//                                         overflow: TextOverflow.ellipsis,
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                             SizedBox(height: 20),
-//                             Card(
-//                               color: Colors.white,
-//                               child: Padding(
-//                                 padding: const EdgeInsets.all(8.0),
-//                                 child: Column(
-//                                   crossAxisAlignment: CrossAxisAlignment.start,
-//                                   children: [
-//                                     Text(
-//                                       "What's your mood like right now?",
-//                                       style: TextStyle(fontSize: 13),
-//                                     ),
-//                                     SizedBox(height: 24),
-//                                     Container(
-//                                       child: Row(
-//                                         mainAxisAlignment:
-//                                             MainAxisAlignment.spaceBetween,
-//                                         children: imagePaths.map((path) {
-//                                           return Image.asset(
-//                                             path,
-//                                             width: 30,
-//                                             height: 30,
-//                                           );
-//                                         }).toList(),
-//                                       ),
-//                                     ),
-//                                     SizedBox(height: 15),
-//                                     Container(
-//                                       height: 35,
-//                                       child: TextField(
-//                                         style: TextStyle(fontSize: 12),
-//                                         decoration: InputDecoration(
-//                                           labelStyle: TextStyle(fontSize: 12),
-//                                           labelText: 'How do you feel?',
-//                                           border: OutlineInputBorder(),
-//                                         ),
-//                                       ),
-//                                     ),
-//                                   ],
-//                                 ),
-//                               ),
-//                             ),
-//                             SizedBox(height: 30),
-//                             Column(
-//                               children: [
-//                                 Row(
-//                                   mainAxisAlignment:
-//                                       MainAxisAlignment.spaceAround,
-//                                   children: [
-//                                     Column(
-//                                       children: [
-//                                         SizedBox(
-//                                           width: 70,
-//                                           height: 70,
-//                                           child: CircularProgressIndicator(
-//                                             value: data[
-//                                                     "overall_completion_percentage"] /
-//                                                 100,
-//                                             strokeWidth: 10,
-//                                             backgroundColor: Colors.white,
-//                                             valueColor:
-//                                                 AlwaysStoppedAnimation<Color>(
-//                                                     Color.fromARGB(
-//                                                         255, 158, 124, 191)),
-//                                           ),
-//                                         ),
-//                                         SizedBox(height: 20),
-//                                         Text(
-//                                           'Tasks',
-//                                           style: TextStyle(
-//                                             fontSize: 16,
-//                                             fontWeight: FontWeight.bold,
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                     Column(
-//                                       children: [
-//                                         GoalsCard(
-//                                           completedGoals: 5,
-//                                           inProgressGoals: 3,
-//                                         ),
-//                                         Text(
-//                                           'Goals',
-//                                           style: TextStyle(
-//                                             fontSize: 16,
-//                                             fontWeight: FontWeight.bold,
-//                                           ),
-//                                         ),
-//                                       ],
-//                                     ),
-//                                   ],
-//                                 ),
-//                                 SizedBox(height: 30),
-//                                 Container(
-//                                   height: 200, // Set your desired height here
-//                                   child: SpeedometerChart(
-//                                     dimension: 200,
-//                                     minValue: 0,
-//                                     maxValue: 100,
-//                                     value: 20,
-//                                     graphColor: [
-//                                       Color.fromARGB(255, 167, 153, 181),
-//                                       Color.fromARGB(255, 177, 152, 206),
-//                                       Color.fromARGB(255, 114, 68, 160)
-//                                     ],
-//                                     pointerColor: Colors.black,
-//                                     // title: Text('Happiness Meter'),
-//                                   ),
-//                                 ),
-//                               ],
-//                             ),
-//                           ],
-//                         ),
-//                       ),
-//                     ],
-//                   ),
-//                 ],
-//               ),
-//             );
-//           } else {
-//             return Center(child: Text('No data available'));
-//           }
-//         },
-//       ),
-//     );
-//   }
-// }
-
-// class EllipseClipper extends CustomClipper<Path> {
-//   @override
-//   Path getClip(Size size) {
-//     Path path = Path();
-//     path.moveTo(0, 0);
-//     path.quadraticBezierTo(size.width * 5, 0, 20, size.height);
-//     path.quadraticBezierTo(size.width, size.height, 0, size.height);
-//     path.close();
-//     return path;
-//   }
-
-//   @override
-//   bool shouldReclip(CustomClipper<Path> oldClipper) {
-//     return false;
-//   }
-// }
-
-// class GoalsCard extends StatelessWidget {
-//   final int completedGoals;
-//   final int inProgressGoals;
-
-//   GoalsCard({required this.completedGoals, required this.inProgressGoals});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       mainAxisSize: MainAxisSize.min,
-//       crossAxisAlignment: CrossAxisAlignment.start,
-//       children: [
-//         Text(
-//           'Completed Goals: $completedGoals',
-//           style: TextStyle(
-//             fontSize: 14,
-//             fontWeight: FontWeight.bold,
-//             color: Colors.green,
-//           ),
-//         ),
-//         SizedBox(height: 4),
-//         Text(
-//           'In Progress Goals: $inProgressGoals',
-//           style: TextStyle(
-//             fontSize: 14,
-//             fontWeight: FontWeight.bold,
-//             color: Colors.orange,
-//           ),
-//         ),
-//       ],
-//     );
-//   }
-// }
-
+import 'dart:ui';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/service/remote_service.dart';
 import 'package:speedometer_chart/speedometer_chart.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MyDashboard extends StatefulWidget {
   const MyDashboard({super.key});
@@ -317,7 +11,6 @@ class MyDashboard extends StatefulWidget {
   State<MyDashboard> createState() => _MyDashboardState();
 }
 
-// moods = {"ANGRY": 0, "SAD": 25, "NEUTRAL": 50, "HAPPY": 75, "EXCITED": 100}
 class _MyDashboardState extends State<MyDashboard> {
   String name = 'Shankar';
   final List<Map<String, String>> imagePaths = [
@@ -334,8 +27,17 @@ class _MyDashboardState extends State<MyDashboard> {
   @override
   void initState() {
     super.initState();
-    _dashboardData =
-        RemoteService().fetchDashboardData('XZUGbVJiMQOM6IW6KCebjCHKLBA2');
+    fetchDashboardData();
+  }
+
+  Future<void> fetchDashboardData() async {
+    try {
+      _dashboardData = RemoteService()
+          .fetchDashboardData(FirebaseAuth.instance.currentUser!.uid);
+      setState(() {}); // To refresh the UI after fetching the data
+    } catch (e) {
+      print('Error refreshing dashboard data: $e');
+    }
   }
 
   @override
@@ -345,7 +47,12 @@ class _MyDashboardState extends State<MyDashboard> {
         future: _dashboardData,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
+            return Stack(
+              children: [
+                _buildMainContent(), // This method should return your main UI content
+                _buildBlurredLoader(), // This method builds the blurred loader
+              ],
+            );
           } else if (snapshot.hasError) {
             return Center(child: Text('Error: ${snapshot.error}'));
           } else if (snapshot.hasData) {
@@ -484,37 +191,71 @@ class _MyDashboardState extends State<MyDashboard> {
                                             MainAxisAlignment.spaceBetween,
                                         children: imagePaths.map((path) {
                                           return InkWell(
-                                            onTap: () {
-                                              print('Image tapped $path');
-                                              // Add your onTap logic here
+                                            onTap: () async {
+                                              try {
+                                                String selectedMood =
+                                                    path["mood"]!;
+                                                print(
+                                                    '${FirebaseAuth.instance.currentUser!.uid} uid');
+
+                                                // Post the mood
+                                                await RemoteService().postMood({
+                                                  "user_id": FirebaseAuth
+                                                      .instance
+                                                      .currentUser!
+                                                      .uid,
+                                                  "mood": selectedMood,
+                                                });
+
+                                                // Fetch the updated dashboard data
+                                                fetchDashboardData();
+
+                                                // Show a toast notification on success
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "Mood set to $selectedMood",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  backgroundColor:
+                                                      Colors.deepPurple,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0,
+                                                );
+                                              } catch (error) {
+                                                // Handle any errors by showing a toast notification
+                                                Fluttertoast.showToast(
+                                                  msg:
+                                                      "Failed to set mood. Please try again.",
+                                                  toastLength:
+                                                      Toast.LENGTH_SHORT,
+                                                  gravity: ToastGravity.BOTTOM,
+                                                  backgroundColor: Colors.red,
+                                                  textColor: Colors.white,
+                                                  fontSize: 16.0,
+                                                );
+                                                print('Error: $error');
+                                              }
                                             },
-                                            child: Image.asset(
-                                              path["path"]!,
+                                            child: Container(
                                               width: 40,
                                               height: 40,
+                                              decoration: BoxDecoration(
+                                                shape: BoxShape.circle,
+                                                color: Colors.deepPurple
+                                                    .withOpacity(0.1),
+                                              ),
+                                              child: Image.asset(
+                                                path["path"]!,
+                                                width: 40,
+                                                height: 40,
+                                              ),
                                             ),
                                           );
                                         }).toList(),
                                       ),
                                     ),
                                     SizedBox(height: 15),
-                                    // Container(
-                                    //   height: 40,
-                                    //   child: TextField(
-                                    //     style: TextStyle(fontSize: 14),
-                                    //     decoration: InputDecoration(
-                                    //       labelStyle: TextStyle(fontSize: 14),
-                                    //       labelText: 'How do you feel?',
-                                    //       border: OutlineInputBorder(
-                                    //         borderRadius:
-                                    //             BorderRadius.circular(12),
-                                    //       ),
-                                    //       filled: true,
-                                    //       fillColor:
-                                    //           Colors.grey.withOpacity(0.1),
-                                    //     ),
-                                    //   ),
-                                    // ),
                                   ],
                                 ),
                               ),
@@ -589,20 +330,36 @@ class _MyDashboardState extends State<MyDashboard> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 30),
+                                SizedBox(height: 20),
                                 Container(
                                   height: 200,
                                   child: SpeedometerChart(
                                     dimension: 200,
                                     minValue: 0,
                                     maxValue: 100,
-                                    value: 20,
-                                    graphColor: [
-                                      Color.fromARGB(255, 167, 153, 181),
-                                      Color.fromARGB(255, 177, 152, 206),
-                                      Color.fromARGB(255, 114, 68, 160)
-                                    ],
-                                    pointerColor: Colors.black,
+                                    value: data["mood_score"],
+                                    minLabel: 'Low',
+                                    maxLabel: 'High',
+                                    currentLabel: 'Mood',
+                                    currentValue: data["mood_score"],
+                                    currentValueLabel: 'Mood Score',
+                                  ),
+                                ),
+                                SizedBox(height: 20),
+                                Container(
+                                  width: double.infinity,
+                                  height: 200,
+                                  color: Colors.white,
+                                  child: Padding(
+                                    padding: const EdgeInsets.all(16.0),
+                                    child: Text(
+                                      'Summary of Tasks and Goals:',
+                                      style: TextStyle(
+                                        fontSize: 18,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.deepPurple,
+                                      ),
+                                    ),
                                   ),
                                 ),
                               ],
@@ -616,28 +373,40 @@ class _MyDashboardState extends State<MyDashboard> {
               ),
             );
           } else {
-            return Center(child: Text('No data available'));
+            return Center(child: Text('No data available.'));
           }
         },
       ),
     );
   }
-}
 
-class EllipseClipper extends CustomClipper<Path> {
-  @override
-  Path getClip(Size size) {
-    Path path = Path();
-    path.moveTo(0, 0);
-    path.quadraticBezierTo(size.width * 5, 0, 20, size.height);
-    path.quadraticBezierTo(size.width, size.height, 0, size.height);
-    path.close();
-    return path;
+  Widget _buildMainContent() {
+    return SingleChildScrollView(
+      child: Column(
+        children: [
+          // Your main content goes here
+          // Ensure to return your complete main UI content
+        ],
+      ),
+    );
   }
 
-  @override
-  bool shouldReclip(CustomClipper<Path> oldClipper) {
-    return false;
+  Widget _buildBlurredLoader() {
+    return Center(
+      child: Container(
+        color: Colors.black.withOpacity(0.5), // Semi-transparent overlay
+        child: Center(
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+            child: Container(
+              color: Colors.white.withOpacity(0.8), // Blurred background
+              padding: EdgeInsets.all(16.0),
+              child: CircularProgressIndicator(),
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }
 
@@ -645,7 +414,11 @@ class GoalsCard extends StatelessWidget {
   final int completedGoals;
   final int inProgressGoals;
 
-  GoalsCard({required this.completedGoals, required this.inProgressGoals});
+  const GoalsCard({
+    super.key,
+    required this.completedGoals,
+    required this.inProgressGoals,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -656,38 +429,25 @@ class GoalsCard extends StatelessWidget {
       elevation: 4,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              '$completedGoals',
+              'Completed Goals: $completedGoals',
               style: TextStyle(
-                fontSize: 24,
+                fontSize: 16,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
               ),
             ),
+            SizedBox(height: 10),
             Text(
-              'Completed ',
+              'In-Progress Goals: $inProgressGoals',
               style: TextStyle(
                 fontSize: 16,
-                color: Colors.deepPurple[300],
-              ),
-            ),
-            SizedBox(height: 12),
-            Text(
-              '$inProgressGoals',
-              style: TextStyle(
-                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
-              ),
-            ),
-            Text(
-              'In Progress ',
-              style: TextStyle(
-                fontSize: 16,
-                color: Colors.deepPurple[300],
               ),
             ),
           ],

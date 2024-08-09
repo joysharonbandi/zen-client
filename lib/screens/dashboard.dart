@@ -11,6 +11,7 @@ class MyDashboard extends StatefulWidget {
   State<MyDashboard> createState() => _MyDashboardState();
 }
 
+// moods = {"ANGRY": 0, "SAD": 25, "NEUTRAL": 50, "HAPPY": 75, "EXCITED": 100}
 class _MyDashboardState extends State<MyDashboard> {
   String name = 'Shankar';
   final List<Map<String, String>> imagePaths = [
@@ -49,6 +50,7 @@ class _MyDashboardState extends State<MyDashboard> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Stack(
               children: [
+                // The main UI components go here (e.g., background, widgets)
                 _buildMainContent(), // This method should return your main UI content
                 _buildBlurredLoader(), // This method builds the blurred loader
               ],
@@ -337,31 +339,15 @@ class _MyDashboardState extends State<MyDashboard> {
                                     dimension: 200,
                                     minValue: 0,
                                     maxValue: 100,
-                                    value: data["mood_score"],
-                                    minLabel: 'Low',
-                                    maxLabel: 'High',
-                                    currentLabel: 'Mood',
-                                    currentValue: data["mood_score"],
-                                    currentValueLabel: 'Mood Score',
+                                    value: data["mood_percentage"],
+                                    graphColor: [
+                                      Color.fromARGB(255, 167, 153, 181),
+                                      Color.fromARGB(255, 177, 152, 206),
+                                      Color.fromARGB(255, 114, 68, 160)
+                                    ],
+                                    pointerColor: Colors.black,
                                   ),
-                                ),
-                                SizedBox(height: 20),
-                                Container(
-                                  width: double.infinity,
-                                  height: 200,
-                                  color: Colors.white,
-                                  child: Padding(
-                                    padding: const EdgeInsets.all(16.0),
-                                    child: Text(
-                                      'Summary of Tasks and Goals:',
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.deepPurple,
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                                )
                               ],
                             ),
                           ],
@@ -373,40 +359,55 @@ class _MyDashboardState extends State<MyDashboard> {
               ),
             );
           } else {
-            return Center(child: Text('No data available.'));
+            return Center(child: Text('No data available'));
           }
         },
       ),
     );
   }
 
+  // Main content of the dashboard screen
   Widget _buildMainContent() {
-    return SingleChildScrollView(
-      child: Column(
+    return Center(
+      child: Text('Your main content here'),
+    );
+  }
+
+  // Blurred loader widget
+  Widget _buildBlurredLoader() {
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
         children: [
-          // Your main content goes here
-          // Ensure to return your complete main UI content
+          BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+            child: Container(
+              color: Colors.transparent,
+            ),
+          ),
+          CircularProgressIndicator(
+            valueColor: AlwaysStoppedAnimation<Color>(Colors.deepPurple),
+          ),
         ],
       ),
     );
   }
+}
 
-  Widget _buildBlurredLoader() {
-    return Center(
-      child: Container(
-        color: Colors.black.withOpacity(0.5), // Semi-transparent overlay
-        child: Center(
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
-            child: Container(
-              color: Colors.white.withOpacity(0.8), // Blurred background
-              padding: EdgeInsets.all(16.0),
-              child: CircularProgressIndicator(),
-            ),
-          ),
-        ),
-      ),
-    );
+class EllipseClipper extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.moveTo(0, 0);
+    path.quadraticBezierTo(size.width * 5, 0, 20, size.height);
+    path.quadraticBezierTo(size.width, size.height, 0, size.height);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) {
+    return false;
   }
 }
 
@@ -414,11 +415,7 @@ class GoalsCard extends StatelessWidget {
   final int completedGoals;
   final int inProgressGoals;
 
-  const GoalsCard({
-    super.key,
-    required this.completedGoals,
-    required this.inProgressGoals,
-  });
+  GoalsCard({required this.completedGoals, required this.inProgressGoals});
 
   @override
   Widget build(BuildContext context) {
@@ -429,25 +426,38 @@ class GoalsCard extends StatelessWidget {
       elevation: 4,
       color: Colors.white,
       child: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              'Completed Goals: $completedGoals',
+              '$completedGoals',
               style: TextStyle(
-                fontSize: 16,
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
               ),
             ),
-            SizedBox(height: 10),
             Text(
-              'In-Progress Goals: $inProgressGoals',
+              'Completed ',
               style: TextStyle(
                 fontSize: 16,
+                color: Colors.deepPurple[300],
+              ),
+            ),
+            SizedBox(height: 12),
+            Text(
+              '$inProgressGoals',
+              style: TextStyle(
+                fontSize: 24,
                 fontWeight: FontWeight.bold,
                 color: Colors.deepPurple,
+              ),
+            ),
+            Text(
+              'In Progress ',
+              style: TextStyle(
+                fontSize: 16,
+                color: Colors.deepPurple[300],
               ),
             ),
           ],

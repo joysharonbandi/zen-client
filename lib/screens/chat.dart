@@ -23,33 +23,47 @@ class _ChatScreenState extends State<ChatScreen> {
     _loadInitialMessages();
   }
 
-  void _loadInitialMessages() async {
+  Future<void> _loadInitialMessages() async {
     try {
-      final response = await http.get(
-        Uri.parse('http://10.0.2.2:8000/api/get-chat?user_id=${_user.id}'),
-        headers: {'Content-Type': 'application/json'},
-      );
+      final data = await RemoteService().getChatData(
+        _user.id,
+      ) as List<dynamic>;
 
-      if (response.statusCode == 200) {
-        final List<dynamic> data = jsonDecode(response.body)["data"];
+      setState(() {
+        _messages = data.map((message) {
+          final isBot = message['chat_from'] == 'AI';
+          final author = isBot ? _bot : _user;
 
-        setState(() {
-          _messages = data.map((message) {
-            final isBot = message['chat_from'] == 'AI';
-            final author = isBot ? _bot : _user;
+          return types.TextMessage(
+            author: author,
+            createdAt:
+                message['created_at'] ?? DateTime.now().millisecondsSinceEpoch,
+            id: Random().nextInt(100000).toString(),
+            text: message['message'] ?? 'No message text available',
+          );
+        }).toList();
+      });
 
-            return types.TextMessage(
-              author: author,
-              createdAt: message['created_at'] ??
-                  DateTime.now().millisecondsSinceEpoch,
-              id: Random().nextInt(100000).toString(),
-              text: message['message'] ?? 'No message text available',
-            );
-          }).toList();
-        });
-      } else {
-        print('Failed to load messages: ${response.statusCode}');
-      }
+      // if (response.statusCode == 200) {
+      //   final List<dynamic> data = jsonDecode(response.body)["data"];
+
+      //   setState(() {
+      //     _messages = data.map((message) {
+      //       final isBot = message['chat_from'] == 'AI';
+      //       final author = isBot ? _bot : _user;
+
+      //       return types.TextMessage(
+      //         author: author,
+      //         createdAt: message['created_at'] ??
+      //             DateTime.now().millisecondsSinceEpoch,
+      //         id: Random().nextInt(100000).toString(),
+      //         text: message['message'] ?? 'No message text available',
+      //       );
+      //     }).toList();
+      //   });
+      // } else {
+      //   print('Failed to load messages: ${response.statusCode}');
+      // }
     } catch (error) {
       print('Error loading messages: $error');
     }

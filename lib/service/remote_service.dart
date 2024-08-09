@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'constants.dart'; // Import the constants file
-const String baseUrl = 'http://10.0.2.2:8000/api/';
+const String baseUrl = 'https://zenapp-39c88.el.r.appspot.com/api/';
 
 class RemoteService {
   Future<String?> _getToken() async {
@@ -331,6 +331,24 @@ class RemoteService {
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
+    } else {
+      throw Exception('Failed to load dashboard data');
+    }
+  }
+
+  Future<List<dynamic>> getChatData(
+    String userId,
+  ) async {
+    // final response = await http
+    //     .get(Uri.parse('http://10.0.2.2:8000/api/get-dashboard-data/$userId'));
+
+    final response = await http.get(
+      Uri.parse('http://10.0.2.2:8000/api/get-chat?user_id=${userId}'),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 200) {
+      return json.decode(response.body)["data"];
     } else {
       throw Exception('Failed to load dashboard data');
     }

@@ -326,8 +326,8 @@ class RemoteService {
   }
 
   Future<Map<String, dynamic>> fetchDashboardData(String userId) async {
-    final response = await http
-        .get(Uri.parse('http://10.0.2.2:8000/api/get-dashboard-data/$userId'));
+    final response =
+        await http.get(Uri.parse('${baseUrl}get-dashboard-data/$userId'));
 
     if (response.statusCode == 200) {
       return json.decode(response.body);
@@ -343,7 +343,7 @@ class RemoteService {
     //     .get(Uri.parse('http://10.0.2.2:8000/api/get-dashboard-data/$userId'));
 
     final response = await http.get(
-      Uri.parse('http://10.0.2.2:8000/api/get-chat?user_id=${userId}'),
+      Uri.parse('${baseUrl}get-chat?user_id=${userId}'),
       headers: {'Content-Type': 'application/json'},
     );
 

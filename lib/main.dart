@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 import 'package:firebase_auth/firebase_auth.dart';
 // // Copyright 2019 The Flutter team. All rights reserved.
 // // Use of this source code is governed by a BSD-style license that can be
@@ -6,13 +8,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
+import 'package:flutter_application_1/providers/goal_provider.dart';
 import 'package:flutter_application_1/screens/chat.dart';
 import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goal_desc.dart';
 import 'package:flutter_application_1/screens/navigation.dart';
 import 'package:flutter_application_1/screens/task_list.dart';
 import 'package:flutter_application_1/screens/tasks_details.dart';
-import 'package:flutter_chat_ui/flutter_chat_ui.dart';
+
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -27,7 +30,7 @@ void main() async {
 GoRouter router(BuildContext context) {
   User? user = FirebaseAuth.instance.currentUser;
   return GoRouter(
-    initialLocation: "/navigation",
+    initialLocation: user != null ? "/navigation" : "/login",
     routes: [
       GoRoute(
         path: '/login',
@@ -39,7 +42,11 @@ GoRouter router(BuildContext context) {
         routes: [
           GoRoute(
             path: 'goal_details',
-            builder: (context, state) => GoalDetailScreen(),
+            builder: (context, state) {
+              final goal = state.extra; // Extract the goal object
+              return GoalDetailScreen(goal: goal);
+              // GoalDetailScreen()
+            },
           ),
           GoRoute(
             path: 'chat',
@@ -47,11 +54,31 @@ GoRouter router(BuildContext context) {
           ),
           GoRoute(
               path: 'day_list',
-              builder: (context, state) => SevenDayPlanScreen(),
+              builder: (context, state) {
+                final goal = state.extra;
+                print('${state.extra} "extra"');
+                if ((state.extra as dynamic).containsKey("planData")) {
+                  return SevenDayPlanScreen(
+                    goalId: (state.extra as Map<String, dynamic>)["goalId"],
+                    planData: (state.extra as Map<String, dynamic>)["planData"],
+                  );
+                } else {
+                  return SevenDayPlanScreen(
+                    goalId: (state.extra as Map<String, dynamic>)["goalId"],
+                  );
+                }
+              },
               routes: [
                 GoRoute(
                   path: 'task_list',
-                  builder: (context, state) => TaskListScreen(),
+                  builder: (context, state) {
+                    final task = state.extra as Map<String, dynamic>;
+                    return TaskListScreen(
+                      taskData: task["task_data"],
+                      day_id: task["day_id"],
+                      goal_id: task["goal_id"],
+                    );
+                  },
                 ),
               ]),
         ],
@@ -62,7 +89,7 @@ GoRouter router(BuildContext context) {
       ),
 
       // GoRoute(
-      //   path: '/catalog',
+      //    ath: '/catalog',
       //   builder: (context, state) => const MyCatalog(),
       //   routes: [
       //     GoRoute(
@@ -85,7 +112,7 @@ class MyApp extends StatelessWidget {
       builder: (context, snapshot) {
         return MultiProvider(
           providers: [
-            Provider(create: (context) => Object()),
+            ChangeNotifierProvider(create: (context) => GoalsProvider()),
           ],
           child: MaterialApp.router(
             title: 'Provider Demo',

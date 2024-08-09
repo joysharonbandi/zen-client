@@ -1,80 +1,124 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/screens/tasks_details.dart';
-import 'package:flutter_application_1/widgets/Questionare.dart';
 import 'package:go_router/go_router.dart';
 
 class GoalDetailScreen extends StatelessWidget {
-  // final String name;
-  // final String description;
-  // final String benefits;
+  final dynamic goal;
 
-  GoalDetailScreen();
+  GoalDetailScreen({required this.goal});
 
   @override
   Widget build(BuildContext context) {
+    final title = goal?["title"] ?? 'No Title Available';
+    final description = goal?["longDescription"] ?? 'No Description Available';
+    final benefits = goal?["benefits"] ?? [];
+    print("goal: $goal");
+
     return Scaffold(
       appBar: AppBar(
-        title: Text("fefewf"),
+        title: Text(
+          "Goal Details",
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+        elevation: 0,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Fewfew",
-              style: TextStyle(
-                fontSize: 24,
-                fontWeight: FontWeight.bold,
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Center(
+                child: Text(
+                  title,
+                  style: TextStyle(
+                    fontSize: 30,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
               ),
-            ),
-            SizedBox(height: 16),
-            Text(
-              "fewfew",
-              style: TextStyle(fontSize: 16),
-            ),
-            SizedBox(height: 16),
-            Text(
-              'Benefits:',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
+              SizedBox(height: 20),
+              Text(
+                description,
+                style: TextStyle(
+                  fontSize: 15,
+                  height: 1.5,
+                  fontWeight: FontWeight.w600,
+                  color: Colors.grey[800],
+                ),
               ),
-            ),
-            SizedBox(height: 8),
-            Text(
-              "Fewfe",
-              style: TextStyle(fontSize: 16),
-            ),
-            Spacer(),
-            Center(
-              child: ElevatedButton(
-                onPressed: () {
-                  showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    backgroundColor: Colors.transparent,
-                    builder: (context) => SafeArea(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height - 100,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius:
-                              BorderRadius.vertical(top: Radius.circular(20)),
-                        ),
-                        child: QuestionnaireModal(),
+              SizedBox(height: 30),
+              Text(
+                'Benefits:',
+                style: TextStyle(
+                  fontSize: 24,
+                  fontWeight: FontWeight.bold,
+                  color: Theme.of(context).primaryColor,
+                ),
+              ),
+              SizedBox(height: 10),
+              for (var benefit in benefits)
+                Padding(
+                  padding: const EdgeInsets.symmetric(vertical: 6.0),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.check_circle,
+                        color: Theme.of(context).primaryColor,
+                        size: 20,
                       ),
+                      SizedBox(width: 10),
+                      Expanded(
+                        child: Text(
+                          benefit,
+                          style: TextStyle(
+                            fontSize: 16,
+                            color: Colors.black87,
+                            fontWeight: FontWeight.w500,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              SizedBox(height: 40),
+              Center(
+                child: ElevatedButton(
+                  onPressed: () {
+                    context.replace("/navigation/day_list",
+                        extra: {"goalId": goal["id"]});
+                  },
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Theme.of(context).primaryColor,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 14.0, horizontal: 32.0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                  );
-                  // context.push("/navigation/day_list");
-                  // Handle start goal action
-                },
-                child: Text('Start Goal'),
+                    elevation: 5,
+                  ),
+                  child: Text(
+                    'Start Goal',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
+      backgroundColor: Colors.white,
     );
   }
 }

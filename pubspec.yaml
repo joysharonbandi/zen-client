@@ -28,6 +28,7 @@ dependencies:
   stylish_bottom_bar: ^1.1.0
   lottie: ^3.1.2
   uuid: ^4.4.2
+  shared_preferences: ^2.0.6
 
 dev_dependencies:
   flutter_test:
@@ -53,3 +54,4 @@ flutter:
     - assets/images/thinking_icon.png
     - assets/images/reminder_icon.png
     - assets/images/chat_bot_anim.json
+    - assets/images/star.png

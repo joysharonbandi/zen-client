@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goals_list.dart';
 import 'package:flutter_application_1/screens/mood.dart';
+import 'package:flutter_application_1/screens/profile.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:lottie/lottie.dart';
@@ -38,62 +39,51 @@ class _NavigationExampleState extends State<NavigationExample> {
   }
 
   @override
+  @override
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
 
     return Scaffold(
-      extendBody: true,
-      body: Container(
-        padding: EdgeInsets.only(bottom: 60.0), // Adjust this value as needed
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          color: Colors.white,
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.vertical(top: Radius.circular(20.0)),
-          child: SafeArea(
-            child: PageView(
-              controller: controller,
-              onPageChanged: (index) {
-                setState(() {
-                  selected = index;
-                });
-              },
-              children: const [
-                MyDashboard(),
-                GoalsPage(),
-                MoodPage(),
-                Center(child: Text('Profile')),
-              ],
-            ),
-          ),
+      extendBody: true, // Keep body extended behind the FAB and bottom bar
+      body: SafeArea(
+        child: PageView(
+          controller: controller,
+          onPageChanged: (index) {
+            setState(() {
+              selected = index;
+            });
+          },
+          children: const [
+            MyDashboard(),
+            GoalsPage(),
+            MoodPage(),
+            ProfileScreen(),
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {},
         backgroundColor: colorScheme.primary,
         child: Container(
-          width: 500,
-          height: 500,
+          width: 60, // Adjusted width and height
+          height: 60,
           decoration: BoxDecoration(
             color: Color.fromARGB(255, 158, 124, 191),
             border: Border.all(
-              color: Color.fromARGB(255, 174, 150, 201), // Border color
-              width: 2.0, // Border width
+              color: Color.fromARGB(255, 174, 150, 201),
+              width: 2.0,
             ),
-            borderRadius: BorderRadius.all(
-                Radius.circular(100)), // Optional: rounded corners
+            borderRadius: BorderRadius.circular(100),
           ),
           child: GestureDetector(
             onTap: () {
               context.push('/navigation/chat');
-              // Add your onTap logic here
             },
             child: Lottie.asset(
               'assets/images/chat_bot_anim.json',
-              width: 100,
-              height: 100,
+              width: 60, // Adjusted width and height
+              height: 60,
             ),
           ),
         ),

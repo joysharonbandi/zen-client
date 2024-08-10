@@ -8,6 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
 import 'package:flutter_application_1/providers/goal_provider.dart';
 import 'package:flutter_application_1/providers/mood_provider.dart';
+import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/screens/chat.dart';
 import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goal_desc.dart';
@@ -29,6 +30,7 @@ void main() async {
 GoRouter router(BuildContext context) {
   User? user = FirebaseAuth.instance.currentUser;
   print(user);
+  // Provider.of<UserProvider>(context, listen: false).setUser(user);
   return GoRouter(
     initialLocation: user != null ? "/navigation" : "/login",
     routes: [
@@ -118,6 +120,7 @@ class MyApp extends StatelessWidget {
           providers: [
             ChangeNotifierProvider(create: (context) => GoalsProvider()),
             ChangeNotifierProvider(create: (context) => MoodProvider()),
+            ChangeNotifierProvider(create: (context) => UserProvider()),
           ],
           child: MaterialApp.router(
             title: 'Provider Demo',

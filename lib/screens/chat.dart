@@ -1,10 +1,12 @@
 import 'dart:convert';
 import 'dart:math';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/providers/user_provider.dart';
 import 'package:flutter_application_1/service/remote_service.dart';
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:http/http.dart' as http;
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
   @override
@@ -24,9 +26,12 @@ class _ChatScreenState extends State<ChatScreen> {
   }
 
   Future<void> _loadInitialMessages() async {
+    final userId = Provider.of<UserProvider>(context, listen: false).user!.uid;
+    print(
+        '${Provider.of<UserProvider>(context, listen: false).user!.uid} userr22');
     try {
       final data = await RemoteService().getChatData(
-        _user.id,
+        userId,
       ) as List<dynamic>;
 
       setState(() {
@@ -86,7 +91,9 @@ class _ChatScreenState extends State<ChatScreen> {
 
   void _sendBotResponse(String userMessage) async {
     try {
-      final response = await RemoteService().chatWithAI(userMessage);
+      final userId =
+          Provider.of<UserProvider>(context, listen: false).user!.uid;
+      final response = await RemoteService().chatWithAI(userMessage, userId);
       print('Data received: $response');
 
       final botResponse = types.TextMessage(

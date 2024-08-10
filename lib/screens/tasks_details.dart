@@ -246,7 +246,7 @@ class _SevenDayPlanScreenState extends State<SevenDayPlanScreen> {
     http.Request request = http.Request(
       'GET',
       Uri.parse(
-          'https://zenapp-39c88.el.r.appspot.com/api/stream-goal-targets?goal_id=${widget.goalId}'),
+          'http://35.200.211.131:3000/api/stream-goal-targets?goal_id=${widget.goalId}'),
     );
     try {
       final response = await client.send(request);

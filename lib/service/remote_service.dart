@@ -8,7 +8,7 @@ import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
 // import 'constants.dart'; // Import the constants file
-const String baseUrl = 'https://zenapp-39c88.el.r.appspot.com/api/';
+const String baseUrl = 'http://35.200.211.131:3000/api/';
 
 class RemoteService {
   Future<String?> _getToken() async {
@@ -240,7 +240,7 @@ class RemoteService {
     }
   }
 
-  Future<String> chatWithAI(String userMessage) async {
+  Future<String> chatWithAI(String userMessage, userId) async {
     final url = Uri.parse('${baseUrl}chat'); // Use the baseUrl constant
     var token = await _getToken();
     print("token $token");
@@ -251,10 +251,7 @@ class RemoteService {
           'Content-Type': 'application/json',
           'Authorization': 'Bearer $token',
         },
-        body: jsonEncode({
-          'user_message': userMessage,
-          "user_id": "XZUGbVJiMQOM6IW6KCebjCHKLBA2"
-        }),
+        body: jsonEncode({'user_message': userMessage, "user_id": userId}),
       );
 
       if (response.statusCode == 200) {

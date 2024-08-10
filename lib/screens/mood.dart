@@ -313,6 +313,7 @@ class _MoodPageState extends State<MoodPage> {
           as String?;
       if (mood != null) {
         final data = await RemoteService().fetchvideoReccomendations(mood);
+        print("data  $data");
         if (mounted) {
           setState(() {
             videoRecommendations = data ?? [];

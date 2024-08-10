@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/providers/goal_provider.dart';
+import 'package:flutter_application_1/service/remote_service.dart';
 import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 // import 'goals_provider.dart'; // Make sure to import the GoalsProvider
@@ -136,18 +137,13 @@ class _TaskListScreenState extends State<TaskListScreen> {
 
                           final newStatus =
                               _isChecked[index] ? 'DONE' : 'TO_DO';
-                          final response = await http.patch(
-                            Uri.parse('http://10.0.2.2:8000/api/edit-task'),
-                            headers: {
-                              'Content-Type': 'application/json',
-                            },
-                            body: jsonEncode({
-                              'goal_id': widget.goal_id,
-                              'day_id': widget.day_id,
-                              'task_id': key,
-                              'status': newStatus,
-                            }),
-                          );
+                          final response =
+                              await RemoteService().changeTaskStatus({
+                            'goal_id': widget.goal_id,
+                            'day_id': widget.day_id,
+                            'task_id': key,
+                            'status': newStatus,
+                          });
 
                           if (response.statusCode == 200) {
                             print('Task status updated successfully');

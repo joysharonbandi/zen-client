@@ -6,6 +6,7 @@ import 'package:flutter_application_1/providers/mood_provider.dart';
 import 'package:flutter_application_1/service/remote_service.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:speedometer_chart/speedometer_chart.dart';
+import 'package:provider/provider.dart';
 
 class MyDashboard extends StatefulWidget {
   const MyDashboard({super.key});
@@ -197,19 +198,16 @@ class _DashboardUIState extends State<DashboardUI> {
     final completionPercentage =
         widget.data["overall_completion_percentage"]?.toDouble() ?? 0;
     final userData = FirebaseAuth.instance.currentUser;
-
-    final completedGoalsCount =
-        widget.data["completed_goals_count"]?.toDouble() ?? 0;
-    final inProgressGoalsCount =
-        widget.data["total_in_progress_goals"]?.toDouble() ?? 0;
+// print()
+    final completedGoalsCount = widget.data["completed_goals_count"] ?? 0;
+    final inProgressGoalsCount = widget.data["total_in_progress_goals"] ?? 0;
 
     // Avoid division by zero
     final progressValue = completedGoalsCount > 0
         ? completedGoalsCount / inProgressGoalsCount
         : 0.0;
 
-    final progressText =
-        '${completedGoalsCount.hashCode}/${inProgressGoalsCount.hashCode}';
+    final progressText = '${completedGoalsCount}/${inProgressGoalsCount}';
 
     return SingleChildScrollView(
       child: Column(
@@ -343,8 +341,11 @@ class _DashboardUIState extends State<DashboardUI> {
 
                                         setState(() {
                                           highlightedMood = selectedMood;
-                                          MoodProvider().currentMood =
-                                              selectedMood;
+                                          Provider.of<MoodProvider>(context,
+                                                  listen: false)
+                                              .setCurrentMood(selectedMood);
+                                          // MoodProvider().currentMood =
+                                          //     selectedMood;
                                         });
 
                                         // Post the mood
@@ -386,9 +387,13 @@ class _DashboardUIState extends State<DashboardUI> {
                                       padding: EdgeInsets.all(3),
                                       decoration: BoxDecoration(
                                         shape: BoxShape.circle,
-                                        color: highlightedMood == path["mood"]
+                                        color: Provider.of<MoodProvider>(
+                                                        context,
+                                                        listen: false)
+                                                    .currentMood ==
+                                                path["mood"]
                                             ? Colors.deepPurple.withOpacity(
-                                                0.3) // Highlight selected
+                                                0.8) // Highlight selected
                                             : null, // Default color
                                         border: highlightedMood == path["mood"]
                                             ? Border.all(

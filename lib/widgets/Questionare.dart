@@ -326,8 +326,8 @@ class _QuestionnaireModalState extends State<QuestionnaireModal> {
 
   Stream<String> establishSSEConnection() async* {
     http.Client client = http.Client();
-    http.Request request = http.Request(
-        'GET', Uri.parse('http://10.0.2.2:8000/api/questionnaire'));
+    http.Request request = http.Request('GET',
+        Uri.parse('https://zenapp-39c88.el.r.appspot.com/api/questionnaire'));
 
     try {
       final response = await client.send(request);

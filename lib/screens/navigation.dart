@@ -6,6 +6,8 @@ import 'package:flutter_application_1/screens/profile.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stylish_bottom_bar/stylish_bottom_bar.dart';
 import 'package:lottie/lottie.dart';
+import 'package:provider/provider.dart';
+import 'package:flutter_application_1/providers/mood_provider.dart';
 
 void main() => runApp(const NavigationBarApp());
 
@@ -43,6 +45,9 @@ class _NavigationExampleState extends State<NavigationExample> {
   Widget build(BuildContext context) {
     final ThemeData theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
+    final mood =
+        Provider.of<MoodProvider>(context, listen: false).currentMood as String;
+    print("Mood: $mood");
 
     return Scaffold(
       extendBody: true, // Keep body extended behind the FAB and bottom bar
@@ -54,10 +59,12 @@ class _NavigationExampleState extends State<NavigationExample> {
               selected = index;
             });
           },
-          children: const [
+          children: [
             MyDashboard(),
             GoalsPage(),
-            MoodPage(),
+            MoodPage(
+              currentMood: "",
+            ),
             ProfileScreen(),
           ],
         ),

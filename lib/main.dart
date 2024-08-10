@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:firebase_auth/firebase_auth.dart';
 // // Copyright 2019 The Flutter team. All rights reserved.
 // // Use of this source code is governed by a BSD-style license that can be
@@ -9,13 +7,14 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/common/theme.dart';
 import 'package:flutter_application_1/providers/goal_provider.dart';
+import 'package:flutter_application_1/providers/mood_provider.dart';
 import 'package:flutter_application_1/screens/chat.dart';
 import 'package:flutter_application_1/screens/dashboard.dart';
 import 'package:flutter_application_1/screens/goal_desc.dart';
+import 'package:flutter_application_1/screens/help_and_support.dart';
 import 'package:flutter_application_1/screens/navigation.dart';
 import 'package:flutter_application_1/screens/task_list.dart';
 import 'package:flutter_application_1/screens/tasks_details.dart';
-
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
@@ -29,6 +28,7 @@ void main() async {
 
 GoRouter router(BuildContext context) {
   User? user = FirebaseAuth.instance.currentUser;
+  print(user);
   return GoRouter(
     initialLocation: user != null ? "/navigation" : "/login",
     routes: [
@@ -81,6 +81,10 @@ GoRouter router(BuildContext context) {
                   },
                 ),
               ]),
+          GoRoute(
+            path: 'help_and_support',
+            builder: (context, state) => const HelpAndSupportScreen(),
+          ),
         ],
       ),
       GoRoute(
@@ -113,6 +117,7 @@ class MyApp extends StatelessWidget {
         return MultiProvider(
           providers: [
             ChangeNotifierProvider(create: (context) => GoalsProvider()),
+            ChangeNotifierProvider(create: (context) => MoodProvider()),
           ],
           child: MaterialApp.router(
             title: 'Provider Demo',

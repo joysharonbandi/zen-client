@@ -41,7 +41,12 @@ class _MyLoginState extends State<MyLogin> {
             final SharedPreferences prefs =
                 await SharedPreferences.getInstance();
             await prefs.setString('jwt_token', token);
-            await RemoteService().sendTokenToBackend(token);
+            try {
+              await RemoteService().sendTokenToBackend(token);
+            } catch (err) {
+              print('$err');
+            }
+
             if (mounted) {
               context.pushReplacement('/navigation');
             }

@@ -57,14 +57,14 @@ class _GoalsPage extends State<GoalsPage> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Icon(Icons.flag, size: 80, color: primaryColor),
+                  Icon(Icons.flag, size: 80, color: Colors.deepPurple),
                   SizedBox(height: 20),
                   Text(
                     "No goals yet!",
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
-                      color: primaryColor,
+                      color: Colors.deepPurple,
                     ),
                   ),
                   SizedBox(height: 10),
@@ -161,8 +161,8 @@ class _GoalsPage extends State<GoalsPage> {
                         borderRadius: BorderRadius.circular(12),
                         gradient: LinearGradient(
                           colors: [
-                            primaryColor.withOpacity(0.8),
-                            secondaryColor.withOpacity(0.8),
+                            primaryColor,
+                            secondaryColor,
                           ],
                           begin: Alignment.topLeft,
                           end: Alignment.bottomRight,
@@ -187,13 +187,6 @@ class _GoalsPage extends State<GoalsPage> {
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white,
-                                shadows: [
-                                  Shadow(
-                                    color: Colors.black.withOpacity(0.3),
-                                    blurRadius: 6,
-                                    offset: Offset(0, 2),
-                                  ),
-                                ],
                               ),
                             ),
                             SizedBox(height: 6),

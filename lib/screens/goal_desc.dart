@@ -26,7 +26,9 @@ class GoalDetailScreen extends StatelessWidget {
         backgroundColor: Theme.of(context).primaryColor,
         centerTitle: true,
         elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
+      backgroundColor: Color.fromARGB(255, 246, 240, 255),
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(20.0),
@@ -39,7 +41,7 @@ class GoalDetailScreen extends StatelessWidget {
                   style: TextStyle(
                     fontSize: 30,
                     fontWeight: FontWeight.bold,
-                    color: Theme.of(context).primaryColor,
+                    color: Colors.deepPurple,
                   ),
                   textAlign: TextAlign.center,
                 ),
@@ -60,7 +62,7 @@ class GoalDetailScreen extends StatelessWidget {
                 style: TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
-                  color: Theme.of(context).primaryColor,
+                  color: Colors.deepPurple,
                 ),
               ),
               SizedBox(height: 10),
@@ -118,7 +120,6 @@ class GoalDetailScreen extends StatelessWidget {
           ),
         ),
       ),
-      backgroundColor: Colors.white,
     );
   }
 }

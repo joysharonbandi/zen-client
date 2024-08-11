@@ -43,14 +43,11 @@ class _MyProfileScreen extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.transparent,
-      ),
+      backgroundColor: Color.fromARGB(255, 246, 240, 255),
       body: _isLoading
           ? Center(child: CircularProgressIndicator())
           : Padding(
-              padding: const EdgeInsets.all(16.0),
+              padding: const EdgeInsets.only(left: 16, top: 82, right: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -75,7 +72,7 @@ class _MyProfileScreen extends State<ProfileScreen> {
                       color: Colors.grey[700],
                     ),
                   ),
-                  SizedBox(height: 20),
+                  SizedBox(height: 40),
                   ProfileMenuItem(
                     icon: Icons.help,
                     text: 'Help & Support',
@@ -83,7 +80,7 @@ class _MyProfileScreen extends State<ProfileScreen> {
                       context.push('/navigation/help_and_support');
                     },
                   ),
-                  SizedBox(height: 40),
+                  SizedBox(height: 20),
                   OutlinedButton.icon(
                     onPressed: _handleSignOut,
                     icon: Icon(Icons.logout, color: Colors.red),
@@ -93,7 +90,7 @@ class _MyProfileScreen extends State<ProfileScreen> {
                     ),
                     style: OutlinedButton.styleFrom(
                       minimumSize:
-                          Size(double.infinity, 40), // Match parent width
+                          Size(double.infinity, 45), // Match parent width
                       side: BorderSide(color: Colors.red),
                       textStyle: TextStyle(fontSize: 16),
                       shape: RoundedRectangleBorder(
@@ -128,11 +125,13 @@ class ProfileMenuItem extends StatelessWidget {
       child: ElevatedButton(
         onPressed: press,
         style: ElevatedButton.styleFrom(
-          elevation: 2,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(10),
           ),
           padding: EdgeInsets.symmetric(vertical: 15, horizontal: 15),
+          backgroundColor: Color.fromARGB(255, 246, 240, 255),
+          side: BorderSide(color: Colors.grey),
+          minimumSize: Size(double.infinity, 46),
         ),
         child: Row(
           children: [

@@ -10,16 +10,23 @@ class SevenDayPlanStaticScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Color primaryColor = Color.fromARGB(255, 190, 151, 229);
-    final Color secondaryColor = Color.fromARGB(255, 201, 184, 219);
 
     return Scaffold(
       appBar: AppBar(
         title: Text(
           '7-Day Plan',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
+      backgroundColor: Color.fromARGB(255, 246, 240, 255),
       body: planData.isNotEmpty
           ? ListView.builder(
               itemCount: planData.length,
@@ -36,11 +43,11 @@ class SevenDayPlanStaticScreen extends StatelessWidget {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    color: secondaryColor,
+                    color: primaryColor,
                     child: ListTile(
                       contentPadding: EdgeInsets.all(16.0),
                       leading: CircleAvatar(
-                        backgroundColor: primaryColor,
+                        backgroundColor: Colors.deepPurple,
                         child: Text(
                           '${index + 1}',
                           style: TextStyle(color: Colors.white),
@@ -53,7 +60,7 @@ class SevenDayPlanStaticScreen extends StatelessWidget {
                       subtitle: Text(objective),
                       trailing: Icon(
                         Icons.check_circle_outline,
-                        color: primaryColor,
+                        color: Colors.deepPurple,
                       ),
                       onTap: () {
                         context.push('/navigation/day_list/task_list',

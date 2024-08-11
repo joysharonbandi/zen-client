@@ -276,9 +276,16 @@ class _SevenDayPlanScreenState extends State<SevenDayPlanScreen> {
           appBar: AppBar(
             title: Text(
               '7-Day Plan',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+              style: TextStyle(
+                fontSize: 22,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
             ),
-            backgroundColor: primaryColor,
+            backgroundColor: Theme.of(context).primaryColor,
+            centerTitle: true,
+            elevation: 0,
+            iconTheme: IconThemeData(color: Colors.white, size: 30),
           ),
           body: _buildPlanList(goal['goalPlan']),
         );
@@ -291,9 +298,16 @@ class _SevenDayPlanScreenState extends State<SevenDayPlanScreen> {
       appBar: AppBar(
         title: Text(
           '7-Day Plan',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
       body: StreamBuilder<Map<String, dynamic>>(
         stream: _streamController.stream,
@@ -301,7 +315,7 @@ class _SevenDayPlanScreenState extends State<SevenDayPlanScreen> {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return Center(
               child: CircularProgressIndicator(
-                color: primaryColor,
+                color: Colors.deepPurple,
               ),
             );
           } else if (snapshot.hasError) {

@@ -83,9 +83,9 @@ class _MyLoginState extends State<MyLogin> {
         ),
         child: Center(
           child: Padding(
-            padding: const EdgeInsets.all(20.0),
+            padding: const EdgeInsets.symmetric(vertical: 60, horizontal: 20),
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   'Welcome to ZEN',
@@ -95,7 +95,6 @@ class _MyLoginState extends State<MyLogin> {
                         color: colorScheme.onBackground,
                       ),
                 ),
-                const SizedBox(height: 20),
                 Container(
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
@@ -113,16 +112,6 @@ class _MyLoginState extends State<MyLogin> {
                     height: 150,
                   ),
                 ),
-                const SizedBox(height: 20),
-                Text(
-                  'Sign in to continue',
-                  style: Theme.of(context).textTheme.titleLarge?.copyWith(
-                        fontSize: 18,
-                        color: colorScheme.onBackground,
-                      ),
-                  textAlign: TextAlign.center,
-                ),
-                const SizedBox(height: 30),
                 ElevatedButton.icon(
                   onPressed: _isSigningIn
                       ? null
@@ -130,7 +119,14 @@ class _MyLoginState extends State<MyLogin> {
                           await _signInWithGoogle();
                         },
                   icon: _isSigningIn
-                      ? CircularProgressIndicator(color: Colors.white)
+                      ? SizedBox(
+                          width: 24,
+                          height: 24,
+                          child: CircularProgressIndicator(
+                            color: Colors.white,
+                            strokeWidth: 2,
+                          ),
+                        )
                       : Icon(Icons.login, size: 24),
                   label: Text(
                       _isSigningIn ? 'Signing in...' : 'Sign In with Google'),

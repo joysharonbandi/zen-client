@@ -29,10 +29,18 @@ class HelpAndSupportScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text(
           'Help & Support',
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
         ),
-        // backgroundColor: primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
+      backgroundColor: Color.fromARGB(255, 246, 240, 255),
       body: Padding(
         padding: const EdgeInsets.all(20),
         child: Column(

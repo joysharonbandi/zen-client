@@ -46,10 +46,20 @@ class _TaskListScreenState extends State<TaskListScreen> {
     final objective = widget.taskData["objective"];
 
     return Scaffold(
-      backgroundColor: backgroundColor,
+      backgroundColor: Color.fromARGB(255, 246, 240, 255),
       appBar: AppBar(
-        title: Text('Tasks for Day'),
-        backgroundColor: primaryColor,
+        title: Text(
+          'Tasks for Day',
+          style: TextStyle(
+            fontSize: 22,
+            fontWeight: FontWeight.bold,
+            color: Colors.white,
+          ),
+        ),
+        backgroundColor: Theme.of(context).primaryColor,
+        centerTitle: true,
+        elevation: 0,
+        iconTheme: IconThemeData(color: Colors.white, size: 30),
       ),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -104,7 +114,9 @@ class _TaskListScreenState extends State<TaskListScreen> {
                           _isChecked[index]
                               ? Icons.check_circle
                               : Icons.radio_button_unchecked,
-                          color: _isChecked[index] ? primaryColor : Colors.grey,
+                          color: _isChecked[index]
+                              ? Colors.deepPurple
+                              : Colors.grey,
                         ),
                         title: Text(
                           value['task'] ?? 'No title available',

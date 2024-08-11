@@ -58,6 +58,7 @@ flutter:
     - assets/images/reminder_icon.png
     - assets/images/chat_bot_anim.json
     - assets/images/star.png
+    - assets/images/three_dot_loader.json
 
 flutter_icons:
   android: true

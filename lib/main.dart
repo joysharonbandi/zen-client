@@ -1,9 +1,111 @@
-import 'package:english_words/english_words.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+// // Copyright 2019 The Flutter team. All rights reserved.
+// // Use of this source code is governed by a BSD-style license that can be
+// // found in the LICENSE file.
+
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/common/theme.dart';
+import 'package:flutter_application_1/providers/goal_provider.dart';
+import 'package:flutter_application_1/providers/mood_provider.dart';
+import 'package:flutter_application_1/providers/user_provider.dart';
+import 'package:flutter_application_1/screens/chat.dart';
+import 'package:flutter_application_1/screens/dashboard.dart';
+import 'package:flutter_application_1/screens/goal_desc.dart';
+import 'package:flutter_application_1/screens/help_and_support.dart';
+import 'package:flutter_application_1/screens/navigation.dart';
+import 'package:flutter_application_1/screens/task_list.dart';
+import 'package:flutter_application_1/screens/tasks_details.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+import 'screens/login.dart';
+
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(MyApp());
+}
+
+GoRouter router(BuildContext context) {
+  User? user = FirebaseAuth.instance.currentUser;
+  print(user);
+  // Provider.of<UserProvider>(context, listen: false).setUser(user);
+  return GoRouter(
+    initialLocation: user != null ? "/navigation" : "/login",
+    routes: [
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const MyLogin(),
+      ),
+      GoRoute(
+        path: '/navigation',
+        builder: (context, state) => const NavigationExample(),
+        routes: [
+          GoRoute(
+            path: 'goal_details',
+            builder: (context, state) {
+              final goal = state.extra; // Extract the goal object
+              return GoalDetailScreen(goal: goal);
+              // GoalDetailScreen()
+            },
+          ),
+          GoRoute(
+            path: 'chat',
+            builder: (context, state) => ChatScreen(),
+          ),
+          GoRoute(
+              path: 'day_list',
+              builder: (context, state) {
+                final goal = state.extra;
+                print('${state.extra} "extra"');
+                if ((state.extra as dynamic).containsKey("planData")) {
+                  return SevenDayPlanScreen(
+                    goalId: (state.extra as Map<String, dynamic>)["goalId"],
+                    planData: (state.extra as Map<String, dynamic>)["planData"],
+                  );
+                } else {
+                  return SevenDayPlanScreen(
+                    goalId: (state.extra as Map<String, dynamic>)["goalId"],
+                  );
+                }
+              },
+              routes: [
+                GoRoute(
+                  path: 'task_list',
+                  builder: (context, state) {
+                    final task = state.extra as Map<String, dynamic>;
+                    return TaskListScreen(
+                      taskData: task["task_data"],
+                      day_id: task["day_id"],
+                      goal_id: task["goal_id"],
+                    );
+                  },
+                ),
+              ]),
+          GoRoute(
+            path: 'help_and_support',
+            builder: (context, state) => const HelpAndSupportScreen(),
+          ),
+        ],
+      ),
+      GoRoute(
+        path: '/dashboard',
+        builder: (context, state) => const MyDashboard(),
+      ),
+
+      // GoRoute(
+      //    ath: '/catalog',
+      //   builder: (context, state) => const MyCatalog(),
+      //   routes: [
+      //     GoRoute(
+      //       path: 'cart',
+      //       builder: (context, state) => const MyCart(),
+      //     ),
+      //   ],
+      // ),
+    ],
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -11,250 +113,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => MyAppState(),
-      child: MaterialApp(
-        title: 'Namer App',
-        theme: ThemeData(
-          useMaterial3: true,
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.blueAccent),
-        ),
-        home: MyHomePage(),
-      ),
-    );
-  }
-}
-
-class MyAppState extends ChangeNotifier {
-  var current = WordPair.random();
-  void getNext() {
-    current = WordPair.random();
-    notifyListeners();
-  }
-
-  var favorites = <WordPair>[];
-
-  void toggleFavorite() {
-    if (favorites.contains(current)) {
-      favorites.remove(current);
-    } else {
-      favorites.add(current);
-    }
-    notifyListeners();
-  }
-}
-
-// class MyHomePage extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     var appState = context.watch<MyAppState>();
-//     var pair = appState.current;
-//     IconData icon;
-//     if (appState.favorites.contains(pair)) {
-//       icon = Icons.favorite;
-//     } else {
-//       icon = Icons.favorite_border;
-//     }
-
-//     return Scaffold(
-//       body: Center(
-//         child: Column(
-//           mainAxisAlignment: MainAxisAlignment.center,
-//           crossAxisAlignment: CrossAxisAlignment.center,
-//           children: [
-//             // Text('A random ideaewwc:'),
-//             Bigcard(pair: pair),
-//             SizedBox(
-//               height: 10,
-//             ),
-//             Row(
-//               mainAxisSize: MainAxisSize.min,
-//               children: [
-//                 ElevatedButton.icon(
-//                   onPressed: () {
-//                     appState.toggleFavorite();
-//                   },
-//                   label: Text("Like"),
-//                   icon: Icon(icon),
-//                 ),
-//                 SizedBox(
-//                   width: 10,
-//                 ),
-//                 ElevatedButton(
-//                   onPressed: () {
-//                     appState.getNext();
-//                     print('button pressed!');
-//                   },
-//                   child: Text('Next'),
-//                 ),
-//               ],
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-class Bigcard extends StatelessWidget {
-  const Bigcard({
-    super.key,
-    required this.pair,
-  });
-
-  final WordPair pair;
-
-  @override
-  Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-    final style = theme.textTheme.bodyMedium!.copyWith(
-        color: theme.colorScheme.onPrimary,
-        fontWeight: FontWeight.w900,
-        fontSize: 20);
-    return Card(
-      color: theme.colorScheme.primary,
-      child: Padding(
-        padding: const EdgeInsets.all(20),
-        child: Text(
-          pair.asLowerCase,
-          style: style,
-        ),
-      ),
-    );
-  }
-}
-
-// ...
-
-class MyHomePage extends StatefulWidget {
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  var selectedIndex = 0;
-  @override
-  Widget build(BuildContext context) {
-    Widget page;
-    switch (selectedIndex) {
-      case 0:
-        page = GeneratorPage();
-        break;
-      case 1:
-        page = FavoritesPage() as Widget;
-        break;
-      default:
-        throw UnimplementedError('no widget for $selectedIndex');
-    }
-    return LayoutBuilder(builder: (context, constraints) {
-      return Scaffold(
-        body: Row(
-          children: [
-            SafeArea(
-              child: NavigationRail(
-                extended: constraints.maxWidth >= 600,
-                destinations: [
-                  NavigationRailDestination(
-                    icon: Icon(Icons.home),
-                    label: Text('Home'),
-                  ),
-                  NavigationRailDestination(
-                    icon: Icon(Icons.favorite),
-                    label: Text('Favorites'),
-                  ),
-                ],
-                selectedIndex: selectedIndex,
-                onDestinationSelected: (value) {
-                  setState(() {
-                    selectedIndex = value;
-                  });
-                  print('selected: $value');
-                },
-              ),
-            ),
-            Expanded(
-              child: Container(
-                color: Theme.of(context).colorScheme.primaryContainer,
-                child: page,
-              ),
-            ),
+    return StreamBuilder<User?>(
+      stream: FirebaseAuth.instance.authStateChanges(),
+      builder: (context, snapshot) {
+        return MultiProvider(
+          providers: [
+            ChangeNotifierProvider(create: (context) => GoalsProvider()),
+            ChangeNotifierProvider(create: (context) => MoodProvider()),
+            ChangeNotifierProvider(create: (context) => UserProvider()),
           ],
-        ),
-      );
-    });
-  }
-}
-
-class FavoritesPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-
-    if (appState.favorites.isEmpty) {
-      return Center(
-        child: Text('No favorites yet.'),
-      );
-    }
-    // TODO: implement build
-    // throw UnimplementedError();
-
-    return ListView(children: [
-      Text("test"),
-      for (var pair in appState.favorites)
-        ListTile(
-          leading: Icon(Icons.favorite),
-          title: Text(pair.asLowerCase),
-        ),
-    ]);
-  }
-
-  // ignore: non_constant_identifier_names
-}
-
-class GeneratorPage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    var appState = context.watch<MyAppState>();
-    var pair = appState.current;
-
-    IconData icon;
-    if (appState.favorites.contains(pair)) {
-      icon = Icons.favorite;
-    } else {
-      icon = Icons.favorite_border;
-    }
-
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          // BigCard(pair: pair),
-          Bigcard(pair: pair),
-          SizedBox(height: 10),
-          Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              ElevatedButton.icon(
-                onPressed: () {
-                  appState.toggleFavorite();
-                },
-                icon: Icon(icon),
-                label: Text('Like'),
-              ),
-              SizedBox(width: 10),
-              ElevatedButton(
-                onPressed: () {
-                  appState.getNext();
-                },
-                child: Text('Next'),
-              ),
-            ],
+          child: MaterialApp.router(
+            title: 'Provider Demo',
+            theme: appTheme,
+            routerConfig: router(context),
           ),
-        ],
-      ),
+        );
+      },
     );
   }
 }
-
-
-// ...
